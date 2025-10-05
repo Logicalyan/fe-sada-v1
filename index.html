@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Desk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --primary-light: #fecaca;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #94a3b8;
+            --border: #e2e8f0;
+        }
+
+        body {
+            background-color: #fef2f2;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-content h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-content p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--primary);
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .toggle-sidebar:hover {
+            background-color: var(--primary-light);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--gray);
+            padding: 0 20px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 5px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            background-color: #fef2f2;
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            background-color: #fef2f2;
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
+            font-weight: 500;
+        }
+
+        .nav-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 0;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-open {
+            margin-left: 250px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-sidebar-main {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-sidebar-main:hover {
+            background-color: var(--primary-light);
+        }
+
+        .header h1 {
+            color: var(--dark);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Search Section */
+        .search-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        .search-box {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .search-box select {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px 0 0 6px;
+            font-size: 1rem;
+            color: var(--dark);
+            background-color: white;
+        }
+
+        .search-box button {
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .search-box button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Popular Articles */
+        .popular-articles {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .article-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .article-card p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Chatbot Section */
+        .chatbot-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .chatbot-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .chatbot-section p {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chatbot-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .chatbot-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary);
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-box select {
+                border-radius: 6px;
+                margin-bottom: 10px;
+            }
+            
+            .search-box button {
+                border-radius: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-content">
+                <h1>Help Desk</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+            <button class="toggle-sidebar">✕</button>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Menu Utama</h3>
+            <ul class="nav-links">
+                <li><a href="#" class="active"><i>🏠</i> Dashboard</a></li>
+                <li><a href="#"><i>📁</i> Tiket Saya</a></li>
+                <li><a href="#"><i>📚</i> Knowledge Base</a></li>
+                <li><a href="#"><i>👥</i> Tim Support</a></li>
+                <li><a href="#"><i>⚙️</i> Pengaturan</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <h3>Kategori</h3>
+            <ul class="nav-links">
+                <li><a href="#"><i>🔧</i> Teknis</a></li>
+                <li><a href="#"><i>💼</i> Bisnis</a></li>
+                <li><a href="#"><i>🔒</i> Keamanan</a></li>
+                <li><a href="#"><i>📊</i> Laporan</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content sidebar-open">
+        <div class="header">
+            <div class="header-left">
+                <button class="toggle-sidebar-main">☰</button>
+                <h1>Help Desk</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <span>John Doe</span>
+            </div>
+        </div>
+
+        <section class="search-section">
+            <div class="search-box">
+                <select>
+                    <option>Select the...</option>
+                    <option>Masalah Teknis</option>
+                    <option>Pertanyaan Umum</option>
+                    <option>Permintaan Fitur</option>
+                    <option>Laporan Bug</option>
+                </select>
+                <button>Submit it</button>
+            </div>
+        </section>
+
+        <section class="popular-articles">
+            <div class="section-header">
+                <h2>Q. Artikel Paling Dicari!</h2>
+                <a href="#" class="view-all">Lihat Semua</a>
+            </div>
+            <div class="articles-grid">
+                <div class="article-card">
+                    <h3>Connectetur</h3>
+                    <p>Excepteur sint consectetur ullamco ex ea nonummy nibh euismod tincidunt ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div class="article-card">
+                    <h3>Exercitation</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div class="article-card">
+                    <h3>Quis</h3>
+                    <p>Molestiae quis autum vel cum lure reprehenderit qui in ea voluptate velit esse cillum est malesuada consequat.</p>
+                </div>
+                <div class="article-card">
+                    <h3>Tempora</h3>
+                    <p>Negati prima ultimatum est, qui dolorem ipsum quis dolor sit amet, consectetur, adipisci velit sed quis non cumquam erus mod tempora.</p>
+                </div>
+                <div class="article-card">
+                    <h3>Evoltensidiamsul artibus</h3>
+                    <p>Quis autum vel cum lure reprehenderit qui in ea voluptate velit esse cillum est malesuada consequat, vel illum qui dolorem erat fugiat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="chatbot-section">
+            <h2>Tidak menemukan solusi? Coba ChatBot</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidutur ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+            <a href="#" class="chatbot-button">Tanya ChatBot 😊</a>
+        </section>
+
+        <footer>
+            <p>© 2025 PT. Sada Technology. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <script>
+        // Toggle sidebar functionality
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const toggleSidebarBtn = document.querySelector('.toggle-sidebar');
+        const toggleSidebarMainBtn = document.querySelector('.toggle-sidebar-main');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('sidebar-open');
+        }
+
+        toggleSidebarBtn.addEventListener('click', toggleSidebar);
+        toggleSidebarMainBtn.addEventListener('click', toggleSidebar);
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickInsideToggle = toggleSidebarMainBtn.contains(event.target);
+                
+                if (!isClickInsideSidebar && !isClickInsideToggle && !sidebar.classList.contains('hidden')) {
+                    toggleSidebar();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
