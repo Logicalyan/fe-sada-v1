@@ -101,6 +101,7 @@ header .right {
     & p {
       font-weight: var(--font-medium);
     }
+
   }
 
   & button:hover {
@@ -108,6 +109,13 @@ header .right {
     color: var(--bg-light);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+  }
+    & img.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: hidden;
   }
 
 }
@@ -379,6 +387,7 @@ header .right {
   font-weight: var(--font-semi-bold);
   text-decoration: underline;
   transition: opacity 0.2s ease;
+  font-size: var(--font-size-text-2xl)
 }
 
 .chatbot a:hover {
@@ -387,9 +396,9 @@ header .right {
 
 .btn-chatbot {
   margin-top: 1.5rem;
-  padding: 0.9rem 1.5rem;
+  padding: 1rem;
   border: none;
-  border-radius: 30px;
+  border-radius: 0.5rem;
   background: #fff;
   color: var(--primary);
   font-weight: var(--font-bold);
