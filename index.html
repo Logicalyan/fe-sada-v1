@@ -1,507 +1,100 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Desk</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #dc2626;
-            --primary-dark: #b91c1c;
-            --primary-light: #fecaca;
-            --secondary: #64748b;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --gray: #94a3b8;
-            --border: #e2e8f0;
-        }
-
-        body {
-            background-color: #fef2f2;
-            color: var(--dark);
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            background-color: white;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 100;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-        .logo {
-            padding: 0 20px 20px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo-content h1 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .logo-content p {
-            color: var(--secondary);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        .toggle-sidebar {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--primary);
-            padding: 5px;
-            border-radius: 4px;
-        }
-
-        .toggle-sidebar:hover {
-            background-color: var(--primary-light);
-        }
-
-        .nav-section {
-            margin-bottom: 30px;
-        }
-
-        .nav-section h3 {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: var(--gray);
-            padding: 0 20px;
-            margin-bottom: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-links {
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-bottom: 5px;
-        }
-
-        .nav-links a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--dark);
-            text-decoration: none;
-            transition: all 0.2s;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover {
-            background-color: #fef2f2;
-            color: var(--primary);
-        }
-
-        .nav-links a.active {
-            background-color: #fef2f2;
-            color: var(--primary);
-            border-right: 3px solid var(--primary);
-            font-weight: 500;
-        }
-
-        .nav-links a i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            margin-left: 0;
-            padding: 30px;
-            transition: margin-left 0.3s ease;
-        }
-
-        .main-content.sidebar-open {
-            margin-left: 250px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .toggle-sidebar-main {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--primary);
-            padding: 5px 10px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toggle-sidebar-main:hover {
-            background-color: var(--primary-light);
-        }
-
-        .header h1 {
-            color: var(--dark);
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Search Section */
-        .search-section {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border);
-        }
-
-        .search-box {
-            display: flex;
-            margin-bottom: 15px;
-        }
-
-        .search-box select {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 6px 0 0 6px;
-            font-size: 1rem;
-            color: var(--dark);
-            background-color: white;
-        }
-
-        .search-box button {
-            padding: 12px 25px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 0 6px 6px 0;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-
-        .search-box button:hover {
-            background-color: var(--primary-dark);
-        }
-
-        /* Popular Articles */
-        .popular-articles {
-            margin-bottom: 30px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .section-header h2 {
-            font-size: 1.5rem;
-            color: var(--dark);
-            font-weight: 600;
-        }
-
-        .view-all {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .article-card {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid var(--border);
-        }
-
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .article-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .article-card p {
-            color: var(--secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Chatbot Section */
-        .chatbot-section {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-            border: 1px solid var(--border);
-        }
-
-        .chatbot-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-
-        .chatbot-section p {
-            color: var(--secondary);
-            margin-bottom: 20px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .chatbot-button {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-
-        .chatbot-button:hover {
-            background-color: var(--primary-dark);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--secondary);
-            border-top: 1px solid var(--border);
-            margin-top: 30px;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 250px;
-            }
-            
-            .main-content.sidebar-open {
-                margin-left: 0;
-            }
-            
-            .articles-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .search-box {
-                flex-direction: column;
-            }
-            
-            .search-box select {
-                border-radius: 6px;
-                margin-bottom: 10px;
-            }
-            
-            .search-box button {
-                border-radius: 6px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help Center</title>
+ <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <div class="logo-content">
-                <h1>Help Desk</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-            <button class="toggle-sidebar">✕</button>
-        </div>
-        
-        <div class="nav-section">
-            <h3>Menu Utama</h3>
-            <ul class="nav-links">
-                <li><a href="#" class="active"><i>🏠</i> Dashboard</a></li>
-                <li><a href="#"><i>📁</i> Tiket Saya</a></li>
-                <li><a href="#"><i>📚</i> Knowledge Base</a></li>
-                <li><a href="#"><i>👥</i> Tim Support</a></li>
-                <li><a href="#"><i>⚙️</i> Pengaturan</a></li>
-            </ul>
-        </div>
-        
-        <div class="nav-section">
-            <h3>Kategori</h3>
-            <ul class="nav-links">
-                <li><a href="#"><i>🔧</i> Teknis</a></li>
-                <li><a href="#"><i>💼</i> Bisnis</a></li>
-                <li><a href="#"><i>🔒</i> Keamanan</a></li>
-                <li><a href="#"><i>📊</i> Laporan</a></li>
-            </ul>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <main class="main-content sidebar-open">
-        <div class="header">
-            <div class="header-left">
-                <button class="toggle-sidebar-main">☰</button>
-                <h1>Help Desk</h1>
-            </div>
-            <div class="user-info">
-                <div class="user-avatar">JD</div>
-                <span>John Doe</span>
-            </div>
-        </div>
+  <header>
+    <div class="header-left">
+        <div class="logo">LOGO</div>
+        <nav class="nav">
+          <a href="#" class="active">Beranda</a>
+          <a href="#">Artikel</a>
+          <a href="#">FAQ</a>
+          <a href="#">Hubungi</a>
+        </nav>
+    </div>
+    .header-right
+    <button class="btn-login">Keluar</button>
+  </header>
 
-        <section class="search-section">
-            <div class="search-box">
-                <select>
-                    <option>Select the...</option>
-                    <option>Masalah Teknis</option>
-                    <option>Pertanyaan Umum</option>
-                    <option>Permintaan Fitur</option>
-                    <option>Laporan Bug</option>
-                </select>
-                <button>Submit it</button>
-            </div>
-        </section>
+  <section class="hero">
+    <h1>Bagaimana kami bisa <span>membantu</span>?</h1>
+    <input type="text" placeholder="Cari solusi permasalahan kamu...">
+    <div class="options">
+      <div class="card-option">
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+  <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />
+  <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
+</svg>
+</div>
+        <h3>Artikel</h3>
+        <p>Penjelasan artikel bantuan singkat.</p>
+      </div>
+      <div class="card-option">
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+  <path d="M11.25 4.533A9.707 9.707 0 0 0 6 3a9.735 9.735 0 0 0-3.25.555.75.75 0 0 0-.5.707v14.25a.75.75 0 0 0 1 .707A8.237 8.237 0 0 1 6 18.75c1.995 0 3.823.707 5.25 1.886V4.533ZM12.75 20.636A8.214 8.214 0 0 1 18 18.75c.966 0 1.89.166 2.75.47a.75.75 0 0 0 1-.708V4.262a.75.75 0 0 0-.5-.707A9.735 9.735 0 0 0 18 3a9.707 9.707 0 0 0-5.25 1.533v16.103Z" />
+</svg>
+</div>
+        <h3>Panduan</h3>
+        <p>Langkah-langkah praktis untuk memulai.</p>
+      </div>
+      <div class="card-option">
+        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+</svg>
+</div>
+        <h3>FAQ</h3>
+        <p>Pertanyaan yang sering diajukan.</p>
+      </div>
+    </div>
+  </section>
 
-        <section class="popular-articles">
-            <div class="section-header">
-                <h2>Q. Artikel Paling Dicari!</h2>
-                <a href="#" class="view-all">Lihat Semua</a>
-            </div>
-            <div class="articles-grid">
-                <div class="article-card">
-                    <h3>Connectetur</h3>
-                    <p>Excepteur sint consectetur ullamco ex ea nonummy nibh euismod tincidunt ut aliquip ex ea commodo consequat.</p>
-                </div>
-                <div class="article-card">
-                    <h3>Exercitation</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-                <div class="article-card">
-                    <h3>Quis</h3>
-                    <p>Molestiae quis autum vel cum lure reprehenderit qui in ea voluptate velit esse cillum est malesuada consequat.</p>
-                </div>
-                <div class="article-card">
-                    <h3>Tempora</h3>
-                    <p>Negati prima ultimatum est, qui dolorem ipsum quis dolor sit amet, consectetur, adipisci velit sed quis non cumquam erus mod tempora.</p>
-                </div>
-                <div class="article-card">
-                    <h3>Evoltensidiamsul artibus</h3>
-                    <p>Quis autum vel cum lure reprehenderit qui in ea voluptate velit esse cillum est malesuada consequat, vel illum qui dolorem erat fugiat.</p>
-                </div>
-            </div>
-        </section>
+  <section class="popular">
+    <h2>Artikel Bantuan <span>Terpopuler</span></h2>
+    <div class="grid">
+      <div class="card-article">
+        <h4>Excepteur</h4>
+        <p>Contoh isi artikel bantuan singkat...</p>
+        <a href="#">Detail</a>
+      </div>
+      <div class="card-article">
+        <h4>Exercitation</h4>
+        <p>Contoh isi artikel bantuan singkat...</p>
+        <a href="#">Detail</a>
+      </div>
+      <div class="card-article">
+        <h4>Tempora</h4>
+        <p>Contoh isi artikel bantuan singkat...</p>
+        <a href="#">Detail</a>
+      </div>
+      <div class="card-article">
+        <h4>Molestiae</h4>
+        <p>Contoh isi artikel bantuan singkat...</p>
+        <a href="#">Detail</a>
+      </div>
+      <div class="card-article">
+        <h4>Facere</h4>
+        <p>Contoh isi artikel bantuan singkat...</p>
+        <a href="#">Detail</a>
+      </div>
+      <div class="card-article">
+        <h4>Consequatur</h4>
+        <p>Contoh isi artikel bantuan singkat...</p>
+        <a href="#">Detail</a>
+      </div>
+    </div>
+  </section>
 
-        <section class="chatbot-section">
-            <h2>Tidak menemukan solusi? Coba ChatBot</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidutur ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-            <a href="#" class="chatbot-button">Tanya ChatBot 😊</a>
-        </section>
+  <section class="chatbot">
+    <h2>Masih Belum Menemukan Solusi? Coba <a href="#">ChatBot</a></h2>
+    <p>Tanyakan masalahmu lewat ChatBot!</p>
+    <button class="btn-chatbot">Tanya ChatBot</button>
+  </section>
 
-        <footer>
-            <p>© 2025 PT. Sada Technology. All rights reserved.</p>
-        </footer>
-    </main>
-
-    <script>
-        // Toggle sidebar functionality
-        const sidebar = document.querySelector('.sidebar');
-        const mainContent = document.querySelector('.main-content');
-        const toggleSidebarBtn = document.querySelector('.toggle-sidebar');
-        const toggleSidebarMainBtn = document.querySelector('.toggle-sidebar-main');
-
-        function toggleSidebar() {
-            sidebar.classList.toggle('hidden');
-            mainContent.classList.toggle('sidebar-open');
-        }
-
-        toggleSidebarBtn.addEventListener('click', toggleSidebar);
-        toggleSidebarMainBtn.addEventListener('click', toggleSidebar);
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            if (window.innerWidth <= 768) {
-                const isClickInsideSidebar = sidebar.contains(event.target);
-                const isClickInsideToggle = toggleSidebarMainBtn.contains(event.target);
-                
-                if (!isClickInsideSidebar && !isClickInsideToggle && !sidebar.classList.contains('hidden')) {
-                    toggleSidebar();
-                }
-            }
-        });
-    </script>
 </body>
 </html>

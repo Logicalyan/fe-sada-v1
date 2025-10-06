@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
-
 * {
   font-family: "Mona Sans", sans-serif;
   box-sizing: border-box;
@@ -34,199 +32,91 @@
 }
 
 body {
-  background-color: var(--bg-light);
+  background: var(--bg-light);
+  color: var(--text-base);
 }
 
+/* Header */
 header {
-  padding: 1rem var(--horizontal-padding);
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--card-stroke);
-}
-
-header .left {
-  display: flex;
-  gap: 2rem;
   align-items: center;
-
-  & .logo p {
-    color: var(--primary);
-    font-size: var(--font-size-text-2xl);
-    font-weight: var(--font-bold);
-    cursor: pointer;
-  }
+  padding: 1rem var(--horizontal-padding);
+  border-bottom: 1px solid var(--card-stroke);
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-light);
+  z-index: 100;
 }
 
-header nav {
+.header-left {
   display: flex;
-  font-weight: var(--font-medium);
-  font-size: var(--font-size-text-xl);
-  color: var(--text-base);
-  gap: 1rem;
+  align-items: center;
+  gap: 2rem; /* jarak logo ke menu */
 }
 
-header nav .logout-mobile{
-  display: none;
-}
-
-.logout-desktop {
-  display: block;
-}
-
-header nav a {
-  color: var(--text-base);
-  font-weight: var(--font-medium);
+.header-left .logo {
+  color: var(--primary);
+  font-size: var(--font-size-text-2xl);
+  font-weight: var(--font-bold);
   cursor: pointer;
 }
 
-header nav a:hover {
+header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto; /* dorong ke kanan */
+}
+
+header .header-right .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+header .nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+header .nav a {
+  font-weight: var(--font-semi-bold);
+  color: var(--text-base);
+  transition: color 0.2s ease;
+}
+
+header .nav a:hover {
+  color: var(--primary);
+}
+
+header .nav a.active {
+  color: var(--primary);
+  font-weight: var(--font-semi-bold);
+}
+
+header .btn-login {
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-light);
   color: var(--primary);
   font-weight: var(--font-medium);
-  cursor: pointer;
+  border: 1px solid var(--primary);
+  font-size: var(--font-size-text-sm);
 }
 
-header .right {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-
-  & button {
-    padding: 8px var(--horizontal-padding);
-    border-radius: 0.5rem;
-    background-color: var(--bg-light);
-    color: var(--primary);
-    font-weight: var(--font-semi-bold);
-    border: 1px solid var(--primary);
-
-    & p {
-      font-weight: var(--font-medium);
-    }
-  }
-
-  & button:hover {
-    background-color: var(--primary);
-    color: var(--bg-light);
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-
+header .btn-login:hover {
+  background: var(--primary);
+  color: var(--bg-light);
+  transition: ease-in-out 0.3s;
 }
 
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-}
-
-.hamburger span {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: var(--text-base);
-  transition: 0.3s;
-}
-
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
-}
-
-
-@media(max-width: 768px) {
-  header nav{
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    background: var(--bg-light);
-    width: 100%;
-    border-top: 1px solid var(--card-stroke);
-    z-index: 1000;
-  }
-  
-  header nav.active {
-    display: flex;
-  }
-  
-  header nav a {
-    text-align: center;
-    
-    padding: 1rem 0;
-    font-size: var(--font-size-text-xl);
-  }
-  
-  header nav a.active {
-    color: var(--primary);
-    font-weight: var(--font-semi-bold);
-  }
-
-  header nav .logout-mobile {
-    display: block;
-    margin-top: 1rem;
-    width: 100%;
-    padding: 1rem;
-    background: var(--primary);
-    color: var(--bg-light);
-    border: none;
-    font-size: var(--font-size-text-xl);
-    font-weight: var(--font-semi-bold);
-    cursor: pointer;
-  }
-
-  header .right figure,
-  header .right .logout-desktop {
-    display:none;
-  }
-
-  .hamburger {
-    display: flex;
-  }
-}
-
+/* Hero */
 .hero {
   text-align: center;
   padding: 3rem var(--horizontal-padding);
-}
-
-.search-field {
-  position: relative;
-  width: min(100%, 500px);
-  margin: 1.5rem auto 0;
-}
-
-.search-field svg {
-  position: absolute;
-  left: 1rem; /* Jarak icon dari kiri */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--text-gray);
-}
-
-/* Targetkan input di dalam search-field */
-.search-field input {
-  width: 100%; /* Lebar input mengikuti wadah */
-  border-radius: 30px;
-  border: 1px solid var(--card-stroke);
-  font-size: var(--font-size-text-base);
-  transition: box-shadow 0.2s ease;
-  
-  /* INI YANG PALING PENTING */
-  /* Padding: [atas-bawah] [kanan] [kiri] */
-  padding: 0.9rem 1rem 0.9rem 2.75rem; /* Beri padding kiri agar teks tidak menimpa icon */
-}
-
-.search-field input:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .hero h1 {
@@ -240,7 +130,15 @@ header .right {
   font-size: var(--font-size-text-4xl);
 }
 
-
+.hero input {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1rem;
+  width: min(50%, 500px);
+  border-radius: 30px;
+  border: 1px solid var(--card-stroke);
+  font-size: var(--font-size-text-base);
+  transition: box-shadow 0.2s ease;
+}
 
 .hero input:focus {
   outline: none;
@@ -459,4 +357,3 @@ header .right {
     font-size: var(--font-size-text-lg);
   }
 }
-
