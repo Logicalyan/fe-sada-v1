@@ -16,7 +16,7 @@
             </div>
 
             <nav>
-                <a class="active" href="help-center.html">
+                <a href="help-center.html">
                     Beranda
                 </a>
                 <a href="help-center.html">
@@ -28,33 +28,16 @@
                 <a href="help-center.html">
                     Hubungi
                 </a>
-                <button class="logout-mobile">Keluar</button>
             </nav>
         </div>
 
         <div class="right">
             <figure style="width: 50px; height: 50px; background: #a5a5a5; border-radius: 50%;"></figure>
-            <button class="logout-desktop">
+            <button>
                 <p>Keluar</p>
             </button>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
-    </header>
-
-    <script>
-        const hamburger= document.getElementById("hamburger");
-        const nav = document.querySelector("nav");
-
-        hamburger.addEventListener("click", () =>{
-            hamburger.classList.toggle("active");
-            nav.classList.toggle("active");
-        }
-        )
-    </script>
+    </header>   
 </body>
 
 </html>
