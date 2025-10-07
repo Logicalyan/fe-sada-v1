@@ -37,6 +37,8 @@ body {
   background-color: var(--bg-light);
 }
 
+
+
 header {
   padding: 1rem var(--horizontal-padding);
   display: flex;
@@ -188,4 +190,218 @@ header .right {
   .hamburger {
     display: flex;
   }
+}
+
+  .help-section{
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .help-section h1{
+    font-size: var(--font-size-text-5xl);
+    font-weight: var(--font-bold);
+    color: var(--text-base);
+  }
+
+  .help-section h1 span{
+    color: var(--primary);
+  }
+
+  .search-box{
+    margin: 1.5rem auto 0;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    background: var(--bg-light);
+    border: 1px solid var(--card-stroke);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .search-box i{
+    color: var(--text-gray);
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
+
+  .search-box input{
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: var(--font-size-text-base);
+    color: var(--text-base);
+  }
+
+  .search-box input::placeholder{
+    color: var(--text-gray);
+  }
+
+  @media (max-width: 768px){
+    .help-section h1{
+      font-size: var(--font-size-text-3xl);
+    }
+
+    .search-box{
+      width: 85%;
+    }
+}
+
+.help-option {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding: 0 var(--horizontal-padding);
+}
+
+.option-card {
+  flex: 1 1 280px;
+  max-width: 320px;
+  background-color: var(--bg-light);
+  border: 1px solid var(--card-stroke);
+  border-radius: 12px;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.oprion-card:hover {
+  transform: translate(-6px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.option-card .icon{
+  background-color: var(--bg-icon);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+}
+
+.option-card .icon img{
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: invert(16%) sepia(96%) saturate(4513%) hue-rotate(345deg) brightness(97%) contrast(90%);
+}
+
+.option-card h3{
+  font-weight: var(--font-bold);
+  font-size: var(--font-size-text-xl);
+  margin-bottom: 0.5rem;
+  color: var(--text-base);
+}
+
+.option-card p{
+  color: var(--text-gray);
+  font-size: var(--font-size-text-base);
+  line-height: 1.4;
+}
+
+@media (max-width : 768px) {
+  .help-option {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .option-card{
+    width: 85%;
+  }
+}
+
+.popular-articles {
+  margin-top: 5rem;
+  padding: 0 var(--horizontal-padding);
+  text-align: center;
+}
+
+.popular-articles .title h2 {
+  font-size: var(--font-size-text-5xl);
+  font-weight: var(--font-bold);
+  color: var(--text-base);
+}
+
+.popular-articles .title h2 span {
+  color: var(--primary);
+}
+
+.popular-articles .title p {
+  color: var(--text-gray);
+  margin-top: 0.5rem;
+  font-weight: var(--font-medium);
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.article-card {
+  background-color: var(--bg-light);
+  border: 1px solid var(--card-stroke);
+  border-radius: 10px;
+  text-align: left;
+  padding: 1.8rem 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+
+.article-card .icon {
+  background-color: var(--bg-icon);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.article-card .icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: invert(16%) sepia(96%) saturate(4513%) hue-rotate(346deg) brightness(97%) contrast(90%);
+}
+
+.article-card h3 {
+  font-size: var(--font-size-text-lg);
+  font-weight: var(--font-bold);
+  color: var(--text-base);
+  margin-bottom: 0.5rem;
+}
+
+.article-card p {
+  color: var(--text-gray);
+  font-size: var(--font-size-text-base);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.article-card a {
+  color: var(--primary);
+  font-weight: var(--font-semi-bold);
+  font-size: var(--font-size-text-sm);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.article-card a:hover {
+  text-decoration: underline;
+  color: #b10f15;
 }
